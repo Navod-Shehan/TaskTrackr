@@ -1,6 +1,6 @@
 package com.coderscamps.AssignmentSubmissionApp.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity //will create table called assignment (based on Class name)
 @Table(name="assignments")
