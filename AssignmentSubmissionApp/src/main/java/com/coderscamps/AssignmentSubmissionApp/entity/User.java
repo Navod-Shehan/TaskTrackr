@@ -1,5 +1,6 @@
 package com.coderscamps.AssignmentSubmissionApp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -17,8 +18,11 @@ public class User implements UserDetails {
     private Long id;
     private LocalDate cohortStartDate;
     private String username;
+    @JsonIgnore
     private String password;
-//    private List<Authority> authorities = new ArrayList<>();
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    @JsonIgnore
+    private List<Authority> authorities = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -54,9 +58,11 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> roles = new ArrayList<>();
-        roles.add(new Authority("ROLE_STUDENT"));
-        return roles;
+        return authorities;
+    }
+
+    public void setAuthorities(List<Authority> authorities) {
+        this.authorities = authorities;
     }
 
     @Override
